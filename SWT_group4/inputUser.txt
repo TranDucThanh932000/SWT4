@@ -1,0 +1,5 @@
+1|tranducthanh|thanhvip|1
+2|tranngocanh|anhpro|2
+3|abcdefgh|thanhabc|2
+4|specification|awesome|3
+5|goodgame|game123|3
