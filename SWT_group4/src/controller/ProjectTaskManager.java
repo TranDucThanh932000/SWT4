@@ -9,12 +9,18 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import model.Project;
 import model.ProjectTask;
+import validate.Validate;
 
 /**
  *
@@ -25,6 +31,14 @@ public class ProjectTaskManager {
     List<ProjectTask> listProjectTask = new ArrayList<>();
     private final static String FILE_URLProjectTask = "C:\\Users\\admin2\\Documents\\NetBeansProjects\\SWT_group4\\inputProjectTask.txt";
 
+    public List<ProjectTask> getListProjectTask() {
+        return listProjectTask;
+    }
+
+    public void setListProjectTask(List<ProjectTask> listProjectTask) {
+        this.listProjectTask = listProjectTask;
+    }
+    
     public void inputListProjectTask() {
         try {
             File file = new File(FILE_URLProjectTask);
@@ -44,12 +58,78 @@ public class ProjectTaskManager {
             System.out.println("Error when inputListProjectTask() " + e.getMessage());
         }
     }
+    
+    public void addProject() {
+        validate.Validate v = new Validate();
+        System.out.println("Enter name:");
+        String name = v.checkString();
+        System.out.println("Enter due date:");
+        Date dueDate = v.checkDueDate();
+        System.out.println("Enter planned from date:");
+        Date plannedFromDate = v.checkEndDate(dueDate);
+        System.out.println("Enter planned to date:");
+        Date plannedToDate =v.checkEndDate(plannedFromDate);
+        System.out.println("Enter Assignee's UserCode: ");
+        int code = v.checkInt();
+        System.out.println("Enter status:");
+        String status=v.checkStatus();
+        ProjectTask p= new ProjectTask(listProjectTask.size()+1, name, dueDate, plannedFromDate, plannedToDate, code, status);
+        listProjectTask.add(p);
+        updateFile();
+    }
+    public void updateListProjectTask() {
+        validate.Validate v = new validate.Validate();
+        System.out.println("Enter id need to update :");
+        int id = v.checkInt();
+        for (ProjectTask p : listProjectTask) {
+            if (p.getId() == id) {
+                //chỗ này hơi ngu, nên tìm đến dòng chứa id này trong file rồi replace thì độ phức tạp thuật toán sẽ giảm rất nhiều.
+                System.out.println("Enter name:");
+                p.setName(v.checkString());
+                System.out.println("Enter Due date:");
+                p.setDue_date(v.checkDueDate());
+                System.out.println("Enter Planned from date:");
+                p.setPlannedfromdate(v.checkEndDate(p.getDue_date()));
+                System.out.println("Enter Planned to date:");
+                p.setPlannedtodate(v.checkEndDate(p.getPlannedfromdate()));
+                System.out.println("Enter Assginee's usercode:");
+                p.setAssigneeusercode(v.checkInt());
+                System.out.println("Enter status:");
+                p.setStatus(v.checkStatus());
+                updateFile();
+                return;
+            }
+        }
+    }
+    public void deleteProject() {
+        validate.Validate v = new validate.Validate();
+        System.out.println("Enter id need to delete :");
+        int id = v.checkInt();
+        for (ProjectTask p : listProjectTask) {
+            if (p.getId() == id) {
+                listProjectTask.remove(p);
+                updateFile();
+                return;
+            }
+        }
+    }
+    public void updateFile() {
+        try {
+            OutputStream outputStream = new FileOutputStream(FILE_URLProjectTask);
+            OutputStreamWriter write = new OutputStreamWriter(outputStream);
+            for (ProjectTask l : listProjectTask) {
+                write.write(l.getId() + "|" + l.getName() + "|" + l.getDue_date() + "|" + l.getPlannedfromdate() + "|" + l.getPlannedtodate() + "|" + l.getAssigneeusercode()+"|"+l.getStatus());
+                write.write("\n");
+            }
+            write.flush();
+        } catch (IOException e) {
+            System.out.println("Error when uploadFile ProjectTask()");
+        }
+    }
+    
     public static void main(String[] args) {
         ProjectTaskManager ptm=new ProjectTaskManager();
         ptm.inputListProjectTask();
-        List<ProjectTask> list = ptm.listProjectTask;
-        for(ProjectTask l:list){
-            System.out.println(l);
-        }
+        ptm.updateListProjectTask();
     }
 }

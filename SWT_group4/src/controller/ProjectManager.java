@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -68,29 +69,66 @@ public class ProjectManager {
         System.out.println("Enter end date:");
         Date endDate = v.checkEndDate(startDate);
         System.out.println("Enter PM's UserCode");
-        int code = Integer.parseInt(v.checkString());
+        int code = v.checkInt();
         Project p = new Project(listProject.size() + 1, name, customer, startDate, endDate, code);
         listProject.add(p);
         updateFile();
+    }
+
+    public void viewListProject() {
+        listProject.forEach((p) -> {
+            System.out.println(p);
+        });
+    }
+
+    public void updateListProject() {
+        validate.Validate v = new validate.Validate();
+        System.out.println("Enter id need to update :");
+        int id = v.checkInt();
+        for (Project p : listProject) {
+            if (p.getId() == id) {
+                //chỗ này hơi ngu, nên tìm đến dòng chứa id này trong file rồi replace thì độ phức tạp thuật toán sẽ giảm rất nhiều.
+                p.setName(v.checkString());
+                p.setCustomer(v.checkString());
+                p.setStart_date(v.checkDate());
+                p.setEnd_date(v.checkEndDate(p.getStart_date()));
+                p.setPmusercode(v.checkInt());
+                updateFile();
+                return;
+            }
+        }
+    }
+
+    public void deleteProject() {
+        validate.Validate v = new validate.Validate();
+        System.out.println("Enter id need to delete :");
+        int id = v.checkInt();
+        for (Project p : listProject) {
+            if (p.getId() == id) {
+                listProject.remove(p);
+                updateFile();
+                return;
+            }
+        }
     }
 
     public void updateFile() {
         try {
             OutputStream outputStream = new FileOutputStream(FILE_URLProject);
             OutputStreamWriter write = new OutputStreamWriter(outputStream);
-            for(Project l:listProject){
-                write.write(l.getId()+"|"+l.getName()+"|"+l.getCustomer()+"|"+l.getStart_date()+"|"+l.getEnd_date()+"|"+l.getPmusercode());
+            for (Project l : listProject) {
+                write.write(l.getId() + "|" + l.getName() + "|" + l.getCustomer() + "|" + l.getStart_date() + "|" + l.getEnd_date() + "|" + l.getPmusercode());
                 write.write("\n");
             }
             write.flush();
-        } catch (Exception e) {
-            System.out.println("Error when uploadFile()");
+        } catch (IOException e) {
+            System.out.println("Error when uploadFile Project()");
         }
     }
-    public static void main(String[] args) {
-        ProjectManager pm= new ProjectManager();
-        pm.inputListProject();
 
-        pm.addProject();
+    public static void main(String[] args) {
+        ProjectManager pm = new ProjectManager();
+        pm.inputListProject();
+        pm.deleteProject();
     }
 }

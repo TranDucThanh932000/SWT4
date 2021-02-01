@@ -50,7 +50,7 @@ public class Validate {
                 Date date = Date.valueOf(checkString());
                 if (startDate.compareTo(date) > 0) {
                     System.out.println("Start date can not greater than End date! Enter again:");
-                }else{
+                } else {
                     return date;
                 }
             } catch (Exception e) {
@@ -58,7 +58,36 @@ public class Validate {
             }
         } while (true);
     }
-
+    public Date checkDueDate(){
+        do{
+            try {
+                Date date= Date.valueOf(checkString());
+                long millis=System.currentTimeMillis();  
+                Date currentDate=new Date(millis);
+                if(date.compareTo(currentDate) < 0){
+                    System.out.println("The due date must be greater than or sequence the current date");
+                }else{
+                    return date;
+                }
+            } catch (Exception e) {
+                System.out.println("Just enter yyyy-MM-dd. Enter again: ");
+            }
+        }while(true);
+    }
+    public String checkStatus(){
+        do{
+            try {
+                String status=checkString();
+                if(status.equalsIgnoreCase("Todo") || status.equalsIgnoreCase("Doing") || status.equalsIgnoreCase("Done") || status.equalsIgnoreCase("Cancelled") ){
+                    return status;
+                }else{
+                    throw new Exception(" Doesn't exist this status! Enter again: ");
+                }
+            } catch (Exception e) {
+                System.out.println("Error when checkStatus : "+e.getMessage());
+            }
+        }while(true);
+    }
     public String checkString() {
         Scanner sc = new Scanner(System.in);
         do {
@@ -67,5 +96,20 @@ public class Validate {
                 return rs;
             }
         } while (true);
+    }
+
+    public int checkInt() {
+        do {
+            try {
+                int n = Integer.parseInt(checkString());
+                return n;
+            } catch (Exception e) {
+                System.out.println("Just enter id with int type! Enter again : ");
+            }
+        } while (true);
+    }
+    public static void main(String[] args) {
+        Validate v= new Validate();
+        int n=v.checkInt();
     }
 }
