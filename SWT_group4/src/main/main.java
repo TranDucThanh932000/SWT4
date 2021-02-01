@@ -5,7 +5,6 @@
  */
 package main;
 
-import controller.Controller;
 import view.View;
 
 /**
@@ -15,7 +14,7 @@ import view.View;
 public class main {
     public static void main(String[] args) {
         View v= new View();
-        v.checkAuthen();
+        v.runSystem();
     }
    
 }

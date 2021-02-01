@@ -59,7 +59,7 @@ public class ProjectTaskManager {
         }
     }
     
-    public void addProject() {
+    public void addProjectTask() {
         validate.Validate v = new Validate();
         System.out.println("Enter name:");
         String name = v.checkString();
@@ -101,7 +101,7 @@ public class ProjectTaskManager {
             }
         }
     }
-    public void deleteProject() {
+    public void deleteProjectTask() {
         validate.Validate v = new validate.Validate();
         System.out.println("Enter id need to delete :");
         int id = v.checkInt();
@@ -126,10 +126,26 @@ public class ProjectTaskManager {
             System.out.println("Error when uploadFile ProjectTask()");
         }
     }
-    
-    public static void main(String[] args) {
-        ProjectTaskManager ptm=new ProjectTaskManager();
-        ptm.inputListProjectTask();
-        ptm.updateListProjectTask();
+    public void tasksInEachStatus(){
+        int todo=0;
+        int doing=0;
+        int done=0;
+        int cancelled=0;
+        for(ProjectTask p:listProjectTask){
+            if(p.getStatus().equals("Todo")){
+                todo++;
+            }else if(p.getStatus().equals("Doing")){
+                doing++;
+            }else if(p.getStatus().equals("Done")){
+                done++;
+            }else{
+                cancelled++;
+            }
+        }
+        System.out.println("Todo : "+todo);
+        System.out.println("Doing : "+doing);
+        System.out.println("Done : "+done);
+        System.out.println("Cancelled : "+cancelled);
     }
+
 }

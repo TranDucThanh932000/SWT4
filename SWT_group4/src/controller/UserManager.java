@@ -9,11 +9,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import model.Project;
+import model.ProjectTask;
 import model.User;
+import validate.Validate;
 
 /**
  *
@@ -52,4 +60,77 @@ public class UserManager {
         }
         setListUser(listUser);
     }
+
+    public void addUser() {
+        validate.Validate v = new Validate();
+        System.out.println("Enter user name:");
+        String name = v.checkString();
+        System.out.println("Enter password:");
+        String password = v.checkPassword();
+        System.out.println("Enter type:");
+        int type = v.checkType();
+        User u = new User(listUser.size() + 1, name, password, type);
+        listUser.add(u);
+        updateFile();
+    }
+    
+    public void updateListUser() {
+        validate.Validate v = new validate.Validate();
+        System.out.println("Enter id need to update :");
+        int code = v.checkInt();
+        for (User u : listUser) {
+            if (u.getUserCode() == code) {
+                //chỗ này hơi ngu, nên tìm đến dòng chứa id này trong file rồi replace thì độ phức tạp thuật toán sẽ giảm rất nhiều.
+                u.setUserName(v.checkUserName());
+                u.setPassword(v.checkPassword());
+                u.setType(v.checkType());
+                updateFile();
+                return;
+            }
+        }
+    }
+    public void deleteUser() {
+        validate.Validate v = new validate.Validate();
+        System.out.println("Enter code need to delete :");
+        int code = v.checkInt();
+        for (User u : listUser) {
+            if (u.getUserCode() == code) {
+                listUser.remove(u);
+                updateFile();
+                return;
+            }
+        }
+    }
+    public void changePassword(){
+        validate.Validate v = new validate.Validate();
+        System.out.println("Enter username need to change password :");
+        String username=v.checkUserName();
+        for (User u : listUser) {
+            if (u.getUserName().equalsIgnoreCase(username)) {
+                u.setPassword(v.checkPassword());
+                updateFile();
+                return;
+            }
+        }
+    }
+    public void viewList(){
+        for(User u:listUser){
+            System.out.println(u);
+        }
+    }
+    
+    public void updateFile() {
+        try {
+            OutputStream outputStream = new FileOutputStream(FILE_URLUser);
+            OutputStreamWriter write = new OutputStreamWriter(outputStream);
+            for (User u : listUser) {
+                write.write(u.getUserCode() + "|" + u.getUserName() + "|" + u.getPassword() + "|" + u.getType());
+                write.write("\n");
+            }
+            write.flush();
+        } catch (IOException e) {
+            System.out.println("Error when uploadFile User");
+        }
+    }
+
 }

@@ -58,36 +58,39 @@ public class Validate {
             }
         } while (true);
     }
-    public Date checkDueDate(){
-        do{
+
+    public Date checkDueDate() {
+        do {
             try {
-                Date date= Date.valueOf(checkString());
-                long millis=System.currentTimeMillis();  
-                Date currentDate=new Date(millis);
-                if(date.compareTo(currentDate) < 0){
+                Date date = Date.valueOf(checkString());
+                long millis = System.currentTimeMillis();
+                Date currentDate = new Date(millis);
+                if (date.compareTo(currentDate) < 0) {
                     System.out.println("The due date must be greater than or sequence the current date");
-                }else{
+                } else {
                     return date;
                 }
             } catch (Exception e) {
                 System.out.println("Just enter yyyy-MM-dd. Enter again: ");
             }
-        }while(true);
+        } while (true);
     }
-    public String checkStatus(){
-        do{
+
+    public String checkStatus() {
+        do {
             try {
-                String status=checkString();
-                if(status.equalsIgnoreCase("Todo") || status.equalsIgnoreCase("Doing") || status.equalsIgnoreCase("Done") || status.equalsIgnoreCase("Cancelled") ){
+                String status = checkString();
+                if (status.equalsIgnoreCase("Todo") || status.equalsIgnoreCase("Doing") || status.equalsIgnoreCase("Done") || status.equalsIgnoreCase("Cancelled")) {
                     return status;
-                }else{
+                } else {
                     throw new Exception(" Doesn't exist this status! Enter again: ");
                 }
             } catch (Exception e) {
-                System.out.println("Error when checkStatus : "+e.getMessage());
+                System.out.println("Error when checkStatus : " + e.getMessage());
             }
-        }while(true);
+        } while (true);
     }
+
     public String checkString() {
         Scanner sc = new Scanner(System.in);
         do {
@@ -108,8 +111,89 @@ public class Validate {
             }
         } while (true);
     }
+
+    public String checkUserName() {
+        do {
+            try {
+                String userName = checkString();
+                if (Character.isLetter(userName.charAt(0)) && userName.length() >= 5) {
+                    return userName;
+                } else {
+                    throw new Exception(" userName has >=5 chars, must start with a letter");
+                }
+            } catch (Exception e) {
+                System.out.println("Error when create username: " + e.getMessage());
+            }
+        } while (true);
+    }
+
+    public String checkPassword() {
+        do {
+            try {
+                String password = checkString();
+                boolean checkDigit = false;
+                boolean checkLetter = false;
+                Error error = new Error("Include both letter & numbers, no other type of chars. Enter again:");
+                if (password.length() >= 6) {
+                    for (int i = 0; i < password.length(); i++) {
+                        if (Character.isDigit(password.charAt(i))) {
+                            checkDigit = true;
+                        } else if (Character.isLetter(password.charAt(i))) {
+                            checkLetter = true;
+                        } else {
+                            throw error;
+                        }
+                    }
+                } else {
+                    throw new StringIndexOutOfBoundsException(" Password must include >=6 chars. Enter again:");
+                }
+                if (checkDigit == true && checkLetter == true) {
+                    return password;
+                } else {
+                    //trường hợp nhập full số hoặc full kí tự
+                    throw error;
+                }
+            } catch (StringIndexOutOfBoundsException | Error e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        } while (true);
+    }
+
+    public int checkType() {
+        do {
+            try {
+                int type = checkInt();
+                if (type < 1 || type > 3) {
+                    throw new Exception("Type only have 1, 2, 3. Enter again: ");
+                } else {
+                    return type;
+                }
+            } catch (Exception e) {
+                System.out.println("Error " + e.getMessage());
+            }
+        } while (true);
+    }
+
+    public int enterChoose(int min, int max) {
+        Scanner sc = new Scanner(System.in);
+        validate.Validate v = new Validate();
+        int n = 0;
+        do {
+            try {
+                System.out.println("Enter your choose:");
+                n = v.checkInt();
+                if (n < min || n > max) {
+                    System.out.println("Warning: n >= " + min + " && n <= " + max);
+                }
+            } catch (Exception e) {
+                System.out.println(" Error when input enterChoose, Enter again! " + e.getMessage());
+            }
+        } while (n < min || n > max);
+        return n;
+    }
+
     public static void main(String[] args) {
-        Validate v= new Validate();
-        int n=v.checkInt();
+        Validate v = new Validate();
+        String s = v.checkPassword();
     }
 }
