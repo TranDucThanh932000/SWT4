@@ -1,9 +1,0 @@
-C:\Users\admin2\source\repos\Notepad\bin\Debug\Notepad.exe
-C:\Users\admin2\source\repos\Notepad\bin\Debug\Notepad.pdb
-C:\Users\admin2\source\repos\Notepad\obj\Debug\Notepad.csprojAssemblyReference.cache
-C:\Users\admin2\source\repos\Notepad\obj\Debug\Notepad.Form1.resources
-C:\Users\admin2\source\repos\Notepad\obj\Debug\Notepad.Properties.Resources.resources
-C:\Users\admin2\source\repos\Notepad\obj\Debug\Notepad.csproj.GenerateResource.cache
-C:\Users\admin2\source\repos\Notepad\obj\Debug\Notepad.csproj.CoreCompileInputs.cache
-C:\Users\admin2\source\repos\Notepad\obj\Debug\Notepad.exe
-C:\Users\admin2\source\repos\Notepad\obj\Debug\Notepad.pdb
