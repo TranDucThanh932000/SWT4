@@ -52,7 +52,7 @@ public class UserManager {
                     String[] cut = line.split("\\|");
                     listUser.add(new User(Integer.parseInt(cut[0]), cut[1], cut[2], Integer.parseInt(cut[3])));
                 }
-            } catch (Exception e) {
+            } catch (IOException | NumberFormatException e) {
                 System.out.println("Error when split string " + e.getMessage());
             }
         } catch (FileNotFoundException e) {

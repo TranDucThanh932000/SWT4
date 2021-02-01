@@ -1,0 +1,10 @@
+controller\ProjectManager.class
+model\Project.class
+controller\ProjectTaskManager.class
+controller\UserManager.class
+view\Menu.class
+view\View.class
+model\ProjectTask.class
+validate\Validate.class
+model\User.class
+main\main.class
