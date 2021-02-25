@@ -75,6 +75,7 @@ public class View {
                         break;
                     }
                     case 3: {
+                        ptm.inforMember(pm.getListProject());
                         break;
                     }
                     case 4: {
@@ -135,6 +136,7 @@ public class View {
                         break;
                     }
                     case 2: {
+                        ptm.inforMember(pm.getListProject());
                         break;
                     }
                     case 3: {

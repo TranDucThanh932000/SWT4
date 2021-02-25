@@ -148,4 +148,12 @@ public class ProjectTaskManager {
         System.out.println("Cancelled : "+cancelled);
     }
 
+    public void inforMember(List<Project> list){
+        listProjectTask.forEach((pt) -> {
+            list.stream().filter((p) -> (pt.getId()==p.getPmusercode())).forEachOrdered((p) -> {
+                System.out.println("Name: "+p.getName()+" Customer: "+p.getCustomer() +" Project: "+pt.getName());
+            });
+        });
+    }
+    
 }

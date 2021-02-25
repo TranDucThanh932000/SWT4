@@ -33,7 +33,7 @@ public class ProjectManager {
     public List<Project> getListProject() {
         return listProject;
     }
-
+    
     public void setListProject(List<Project> listProject) {
         this.listProject = listProject;
     }
@@ -57,7 +57,7 @@ public class ProjectManager {
             System.out.println("Error when inputListProject() " + e.getMessage());
         }
     }
-
+    
     public void addProject() {
         validate.Validate v = new Validate();
         System.out.println("Enter name:");
@@ -98,7 +98,7 @@ public class ProjectManager {
             }
         }
     }
-
+    
     public void deleteProject() {
         validate.Validate v = new validate.Validate();
         System.out.println("Enter id need to delete :");
